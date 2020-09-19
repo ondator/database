@@ -29,8 +29,11 @@ class WalSpec extends AnyFlatSpec {
     implicit val index: mutable.Map[String, Long] = mutable.Map()
 
     val wal = new WalComponentImpl {val wal: Wal = new TextFileWal()}.wal
-    wal.set("2", "hello")
-    assert(wal.get("2") == Some("hello"))
+    wal.set("1", "hello 1")
+    wal.set("2", "hello 2")
+    wal.set("3", "hello 3")
+    var res = wal.get("2")
+    assert(res == Some("hello 2"))
     
     val file = new File(walName)    
     file.delete();

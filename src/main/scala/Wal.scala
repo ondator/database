@@ -1,3 +1,5 @@
+package storage
+
 import scala.collection.mutable
 
 trait WalComponent{
