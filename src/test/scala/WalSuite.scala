@@ -1,6 +1,7 @@
 import scala.collection.mutable
 import java.io._
 import org.scalatest.flatspec.AnyFlatSpec
+import storage._
 
 class WalSpec extends AnyFlatSpec {
 
