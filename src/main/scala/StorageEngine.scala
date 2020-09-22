@@ -16,6 +16,7 @@ trait LSMStorageEngineComponent extends StorageEngineComponent{
   import scala.collection.mutable.SortedMap            
 
     class LSM extends StorageEngine{
+      import java.io._
       
       final val dataFolder = "./storage/"
       final val ssTableSize: Int = 3000
@@ -28,12 +29,23 @@ trait LSMStorageEngineComponent extends StorageEngineComponent{
       }
 
       private def getPersisted(key: String): Option[String] = {
-        import java.io._
 
         val filename = dataFolder
         val file = new File(filename)
-        val files = file.listFiles().sortBy(_.getName())
-        ???
+        val files = file.listFiles().sortBy(_.getName())(Ordering[String].reverse)
+        files.map(x=>searchInFile(x, key)).find(_.isDefined).flatMap(x=>x)
+      }
+
+      private def searchInFile(file: File, key: String): Option[String] = {
+        val bw = new BufferedReader(new FileReader(file))
+        var result: Option[String] = None
+        var line: String = null
+        do{
+          line = bw.readLine()
+          result = Option(line).map(x => x.split(",")).map(x=>(x.head, x.reverse.head)).flatMap(x=> if(x._1 == key) Some(x._2) else None)
+        }while(line != null && !result.isDefined)        
+          bw.close()
+          result
       }
 
       override def set(key: String, value: String): Unit = {
