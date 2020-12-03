@@ -1,7 +1,7 @@
 package com.alexadb
 package core
 
-import cats.core
+//import cats.core
 import WriteConcern._, ReadConcern._
 
 sealed trait Core[F[_]]{
