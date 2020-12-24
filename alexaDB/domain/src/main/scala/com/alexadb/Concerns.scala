@@ -11,5 +11,3 @@ object ReadConcern extends Enumeration{
     type ReadConcern = Value
     val Any, Leader, Majority = Value
 }
-
-sealed trait WriteError
